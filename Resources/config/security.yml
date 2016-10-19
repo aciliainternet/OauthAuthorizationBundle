@@ -1,0 +1,19 @@
+security:
+    providers:
+        oauth_access_user:
+            id: acilia.oauth_authorization.oauth_access_user_provider
+
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt|error)|css|images|js)/
+            security: false
+
+        main:
+            anonymous: false
+            logout: ~
+
+            guard:
+                authenticators:
+                    - acilia.oauth_authorization.token_authenticator
+            logout:
+                path:   /logout
