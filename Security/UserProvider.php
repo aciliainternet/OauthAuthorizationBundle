@@ -2,6 +2,7 @@
 namespace Acilia\Bundle\OauthAuthorizationBundle\Security;
 
 use Acilia\Bundle\OauthAuthorizationBundle\Security\User;
+use Guzzle\Http\Message\Response;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
@@ -33,13 +34,17 @@ class UserProvider implements UserProviderInterface
         $guzzleClient = new Client();
 
         $authZ = $guzzleClient->get(sprintf('%s/oauth/token?access_token=%s&client_id=%s&client_secret=%s', $this->access_url, $username, $this->client_id, $this->oauth_secret));
-        $authData = json_decode($authZ->getBody(), true);
+        if ($authZ->getStatusCode() == 200) {
+            $authData = json_decode($authZ->getBody(), true);
 
-        if ($authData['auth'] == 1) {
-            return new User($authData['data']['user']['name'], $authData['data']['access'], $authData['data']['roles']);
+            if ($authData['auth'] == 1) {
+                return new User($authData['data']['user']['name'], $authData['data']['access'], $authData['data']['roles']);
+            }
+
+            throw new Exception('User is not authenticated');
         }
 
-        throw new Exception('User is not authenticated');
+        throw new Exception('Cannot connect with oAuth platform');
     }
 
     public function refreshUser(UserInterface $user)
