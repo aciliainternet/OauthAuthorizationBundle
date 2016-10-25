@@ -8,6 +8,7 @@ use Symfony\Component\Security\Guard\AbstractGuardAuthenticator;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
+use Exception;
 
 class TokenAuthenticator extends AbstractGuardAuthenticator
 {
@@ -45,7 +46,12 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
     {
         $accessToken = $credentials['token'];
 
-        return $userProvider->loadUserByUsername($accessToken);
+        try {
+            return $userProvider->loadUserByUsername($accessToken);
+        }
+        catch (Exception $e) {
+            throw $e;
+        }
     }
 
     public function checkCredentials($credentials, UserInterface $user)

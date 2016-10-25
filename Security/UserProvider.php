@@ -6,6 +6,7 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use GuzzleHttp\Client;
+use Exception;
 
 class UserProvider implements UserProviderInterface
 {
@@ -29,18 +30,16 @@ class UserProvider implements UserProviderInterface
             return new User('anon.', ['ALL'], ['ROLE_USER']);
         }
 
-
         $guzzleClient = new Client();
 
         $authZ = $guzzleClient->get(sprintf('%s/oauth/token?access_token=%s&client_id=%s&client_secret=%s', $this->access_url, $username, $this->client_id, $this->oauth_secret));
         $authData = json_decode($authZ->getBody(), true);
 
-        $user = false;
         if ($authData['auth'] == 1) {
-            $user = new User($authData['data']['user']['name'], $authData['data']['access'], $authData['data']['roles']);
+            return new User($authData['data']['user']['name'], $authData['data']['access'], $authData['data']['roles']);
         }
-        return $user;
 
+        throw new Exception('User is not authenticated');
     }
 
     public function refreshUser(UserInterface $user)
