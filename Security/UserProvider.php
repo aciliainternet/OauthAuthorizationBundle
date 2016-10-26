@@ -32,7 +32,7 @@ class UserProvider implements UserProviderInterface
 
         $guzzleClient = new Client();
 
-        $authZ = $guzzleClient->get(sprintf('%s/oauth/token?access_token=%s&client_id=%s&client_secret=%s', $this->access_url, $username, $this->client_id, $this->oauth_secret));
+        $authZ = $guzzleClient->get(sprintf('%s/oauth/token?access_token=%s&client_id=%s&client_secret=%s', $this->access_url, $username, $this->client_id, md5($this->client_id . $this->oauth_secret)));
 
         if ($authZ->getStatusCode() == 200) {
             $authData = json_decode($authZ->getBody(), true);
