@@ -17,3 +17,4 @@ security:
                     - acilia.oauth_authorization.token_authenticator
             logout:
                 path:   /logout
+                success_handler: acilia.oauth_authorization.logout_success_handler
