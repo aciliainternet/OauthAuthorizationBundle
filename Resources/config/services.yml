@@ -11,3 +11,7 @@ services:
     acilia.oauth_authorization.oauth_access_user_provider:
         class: Acilia\Bundle\OauthAuthorizationBundle\Security\UserProvider
         arguments: ['%acilia_oauth.access_url%', '%acilia_oauth.enabled%',  '%acilia_oauth.oauth_secret%', '%acilia_oauth.client_id%']
+
+    acilia.oauth_authorization.logout_success_handler:
+        class: Acilia\Bundle\OauthAuthorizationBundle\Security\LogoutSuccessHandler
+        arguments: ['%acilia_oauth.access_url%']

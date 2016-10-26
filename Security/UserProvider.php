@@ -2,7 +2,6 @@
 namespace Acilia\Bundle\OauthAuthorizationBundle\Security;
 
 use Acilia\Bundle\OauthAuthorizationBundle\Security\User;
-use Guzzle\Http\Message\Response;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
@@ -34,9 +33,9 @@ class UserProvider implements UserProviderInterface
         $guzzleClient = new Client();
 
         $authZ = $guzzleClient->get(sprintf('%s/oauth/token?access_token=%s&client_id=%s&client_secret=%s', $this->access_url, $username, $this->client_id, $this->oauth_secret));
+
         if ($authZ->getStatusCode() == 200) {
             $authData = json_decode($authZ->getBody(), true);
-
             if ($authData['auth'] == 1) {
                 return new User($authData['data']['user']['name'], $authData['data']['access'], $authData['data']['roles']);
             }
