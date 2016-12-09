@@ -45,6 +45,7 @@ acilia_oauth_authorization:
     enabled: true                          # enable or disable authentication, if false users as authenticated as 'anon.'
     oauth_secret: '_secret_hash_'          # hash for encrypt requests to the api
     client_id: 'my_app_identifier_key'     # unique identifier for the application
+    excludes: ['www.domain-excluded.com']  # array of domains to exclude from the auth checking
 ```
 
 Finally, you'll need to define the logout path. Add to your routing.yml file the following:
