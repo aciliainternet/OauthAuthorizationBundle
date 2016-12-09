@@ -46,3 +46,9 @@ acilia_oauth_authorization:
     oauth_secret: '_secret_hash_'          # hash for encrypt requests to the api
     client_id: 'my_app_identifier_key'     # unique identifier for the application
 ```
+
+Finally, you'll need to define the logout path. Add to your routing.yml file the following:
+```
+logout:
+    path: /logout
+```

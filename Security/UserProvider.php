@@ -1,12 +1,12 @@
 <?php
+
 namespace Acilia\Bundle\OauthAuthorizationBundle\Security;
 
-use Acilia\Bundle\OauthAuthorizationBundle\Security\User;
+use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use GuzzleHttp\Client;
-use Exception;
 
 class UserProvider implements UserProviderInterface
 {
@@ -40,10 +40,10 @@ class UserProvider implements UserProviderInterface
                 return new User($authData['data']['user']['name'], $authData['data']['access'], $authData['data']['roles']);
             }
 
-            throw new Exception('User is not authenticated');
+            throw new UsernameNotFoundException('User is not authenticated');
         }
 
-        throw new Exception('Cannot connect with oAuth platform');
+        throw new UsernameNotFoundException('Cannot connect with oAuth platform');
     }
 
     public function refreshUser(UserInterface $user)
@@ -57,6 +57,6 @@ class UserProvider implements UserProviderInterface
 
     public function supportsClass($class)
     {
-        return $class === 'BackendBundle\Security\FIC_Access\User';
+        return $class === 'Acilia\Bundle\OauthAuthorizationBundle\Security\User';
     }
 }

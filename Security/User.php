@@ -1,4 +1,5 @@
 <?php
+
 namespace Acilia\Bundle\OauthAuthorizationBundle\Security;
 
 use Symfony\Component\Security\Core\User\UserInterface;
