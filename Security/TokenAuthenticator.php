@@ -2,6 +2,7 @@
 
 namespace Acilia\Bundle\OauthAuthorizationBundle\Security;
 
+use Acilia\Bundle\OauthAuthorizationBundle\Service\EnabledService;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -14,13 +15,14 @@ use Exception;
 class TokenAuthenticator extends AbstractGuardAuthenticator
 {
     protected $access_url;
-    protected $enabled;
+    protected $enabledService;
+    protected $excludes;
     protected $client_id;
 
-    public function __construct($access_url, $enabled, $client_id)
+    public function __construct($access_url, EnabledService $enabledService, $client_id)
     {
         $this->access_url = $access_url;
-        $this->enabled = $enabled;
+        $this->enabledService = $enabledService;
         $this->client_id = $client_id;
     }
 
@@ -30,7 +32,7 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
      */
     public function getCredentials(Request $request)
     {
-        if ($this->enabled == false) {
+        if (! $this->enabledService->isEnabled()) {
             return true;
         }
 
@@ -94,4 +96,5 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
     {
         return false;
     }
+
 }
