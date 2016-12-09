@@ -20,7 +20,6 @@ class EnabledService
         $this->oAuthEnabled = true;
 
         $this->load();
-        var_dump($this->oAuthEnabled);exit;
     }
 
     public function isEnabled()

@@ -2,6 +2,7 @@
 
 namespace Acilia\Bundle\OauthAuthorizationBundle\Security;
 
+use Acilia\Bundle\OauthAuthorizationBundle\Service\EnabledService;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -16,7 +17,7 @@ class UserProvider implements UserProviderInterface
     protected $oauth_secret;
     protected $client_id;
 
-    public function __construct($access_url, $enabledService,  $oauth_secret, $client_id)
+    public function __construct($access_url, EnabledService $enabledService,  $oauth_secret, $client_id)
     {
         $this->access_url = $access_url;
         $this->enabledService = $enabledService;
