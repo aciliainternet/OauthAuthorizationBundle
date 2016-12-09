@@ -33,8 +33,11 @@ class EnabledService
             $this->oAuthEnabled = false;
         }
 
-        if (in_array($this->request->getCurrentRequest()->getHost(), $this->excludes)) {
-            $this->oAuthEnabled = false;
+        $request = $this->request->getMasterRequest();
+        if (! is_null($request)) {
+            if (in_array($request->getHost(), $this->excludes)) {
+                $this->oAuthEnabled = false;
+            }
         }
     }
 }
