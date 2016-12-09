@@ -83,7 +83,7 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
      */
     public function start(Request $request, AuthenticationException $authException = null)
     {
-        if ($this->enabled == false) {
+        if (! $this->enabledService->isEnabled()) {
             return true;
         }
 
