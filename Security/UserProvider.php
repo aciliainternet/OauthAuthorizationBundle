@@ -12,21 +12,21 @@ class UserProvider implements UserProviderInterface
 {
 
     protected $access_url;
-    protected $enabled;
+    protected $enabledService;
     protected $oauth_secret;
     protected $client_id;
 
-    public function __construct($access_url, $enabled,  $oauth_secret, $client_id)
+    public function __construct($access_url, $enabledService,  $oauth_secret, $client_id)
     {
         $this->access_url = $access_url;
-        $this->enabled = $enabled;
+        $this->enabledService = $enabledService;
         $this->oauth_secret = $oauth_secret;
         $this->client_id = $client_id;
     }
 
     public function loadUserByUsername($username)
     {
-        if ($this->enabled == false) {
+        if (! $this->enabledService->isEnabled()) {
             return new User('anon.', ['ALL'], ['ROLE_USER']);
         }
 

@@ -30,8 +30,9 @@ class Configuration implements ConfigurationInterface
                 ->scalarNode('oauth_secret')->isRequired()->cannotBeEmpty()->end()
                 ->scalarNode('client_id')->isRequired()->cannotBeEmpty()->end()
                 ->scalarNode('access_url')->isRequired()->cannotBeEmpty()->end()
-            ->end()
-        ->end();
+                ->arrayNode('excludes')->canBeUnset()->prototype('scalar')->end()
+                ->end()
+            ->end();
 
         return $treeBuilder;
     }
