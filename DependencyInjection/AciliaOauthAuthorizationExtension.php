@@ -34,5 +34,6 @@ class AciliaOauthAuthorizationExtension extends Extension
         $container->setParameter('acilia_oauth.client_id', $config['client_id']);
         $container->setParameter('acilia_oauth.access_url', $config['access_url']);
         $container->setParameter('acilia_oauth.excludes', $config['excludes']);
+        $container->setParameter('acilia_oauth.api_tokens', $config['api_tokens']);
     }
 }
