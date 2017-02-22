@@ -18,12 +18,14 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
     protected $enabledService;
     protected $excludes;
     protected $client_id;
+    protected $apiTokens;
 
-    public function __construct($access_url, EnabledService $enabledService, $client_id)
+    public function __construct($access_url, EnabledService $enabledService, $client_id, $apiTokens)
     {
         $this->access_url = $access_url;
         $this->enabledService = $enabledService;
         $this->client_id = $client_id;
+        $this->apiTokens = $apiTokens;
     }
 
     /**
@@ -36,24 +38,36 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
             return true;
         }
 
-        if (!$token = $request->query->get('access_token', false)) {
+        $data = [];
+
+        if ($apiToken = $request->query->get('api_token', false)) {
+            $data['api_token'] = $apiToken;
+        }
+
+        if ($token = $request->query->get('access_token', false)) {
+            $data['token'] = $token;
+        }
+
+        if (empty($data)) {
             // no token? Return null and no other methods will be called
             return;
         }
 
-        return ['token' => $token];
+        return $data;
         // What you return here will be passed to getUser() as $credentials
     }
 
     public function getUser($credentials, UserProviderInterface $userProvider)
     {
-        $accessToken = $credentials['token'];
+        if ($credentials['api_token'] && in_array($credentials['api_token'], $this->apiTokens)) {
+            return new User('free', [], []);
+        }
 
+        $accessToken = isset($credentials['token']) ? $credentials['token'] : '';
         try {
             return $userProvider->loadUserByUsername($accessToken);
         }
         catch (Exception $e) {
-            throw $e;
         }
     }
 
