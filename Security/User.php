@@ -7,15 +7,17 @@ use Symfony\Component\Security\Core\User\EquatableInterface;
 
 class User implements UserInterface, EquatableInterface
 {
-    private $username;
-    private $regions;
-    private $roles;
+    protected $username;
+    protected $regions;
+    protected $roles;
+    protected $metadata;
 
-    public function __construct($username, array $regions, array $roles)
+    public function __construct($username, array $regions, array $roles, array $metadata)
     {
         $this->username = $username;
         $this->regions = $regions;
         $this->roles = $roles;
+        $this->metadata = $metadata;
     }
 
     public function getRegions()
@@ -41,6 +43,11 @@ class User implements UserInterface, EquatableInterface
     public function getUsername()
     {
         return $this->username;
+    }
+
+    public function getMetadata()
+    {
+        return $this->metadata;
     }
 
     public function eraseCredentials()

@@ -28,7 +28,7 @@ class UserProvider implements UserProviderInterface
     public function loadUserByUsername($username)
     {
         if (! $this->enabledService->isEnabled()) {
-            return new User('anon.', ['ALL'], ['ROLE_USER']);
+            return new User('anon.', ['ALL'], ['ROLE_USER'], []);
         }
 
         $guzzleClient = new Client();
@@ -38,7 +38,7 @@ class UserProvider implements UserProviderInterface
         if ($authZ->getStatusCode() == 200) {
             $authData = json_decode($authZ->getBody(), true);
             if ($authData['auth'] == 1) {
-                return new User($authData['data']['user']['name'], $authData['data']['access'], $authData['data']['roles']);
+                return new User($authData['data']['user']['name'], $authData['data']['access'], $authData['data']['roles'], $authData['data']['metadata']);
             }
 
             throw new UsernameNotFoundException('User is not authenticated');
