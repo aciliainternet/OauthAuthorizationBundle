@@ -16,12 +16,7 @@ class User implements UserInterface, EquatableInterface
     public function __construct($username, array $access, array $roles, array $metadata)
     {
         $this->username = $username;
-        $this->access = [];
-        if(!empty($access)) {
-            foreach ($access as $key => $value) {
-                $this->access[$value] = $key;
-            }
-        }
+        $this->access = $access;
         $this->regions = $this->access;
         $this->roles = $roles;
         $this->metadata = $metadata;
