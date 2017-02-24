@@ -13,24 +13,17 @@ class User implements UserInterface, EquatableInterface
     private $metadata;
     private $access;
 
-    public function __construct($username, array $access, array $roles)
+    public function __construct($username, array $access, array $roles, array $metadata)
     {
         $this->username = $username;
-        $this->access = $access;
-
-        if(array_keys($this->access) !== range(0, count($this->access) - 1)) {
-            $this->regions = [];
-            $this->metadata = [];
-            foreach ($this->access as $key => $item) {
-                $this->regions[$key] = $item['code'];
-                $this->metadata[$item['code']] = $item['metadata']; // TODO CHECK IT
+        $this->access = [];
+        if(!empty($access)) {
+            foreach ($access as $key => $value) {
+                $this->access[$value] = $key;
             }
-        }else{
-            $this->regions = $this->access;
-            $this->metadata = null;
         }
-
         $this->roles = $roles;
+        $this->metadata = $metadata;
     }
 
     public function getRegions()
@@ -61,6 +54,11 @@ class User implements UserInterface, EquatableInterface
     public function getMetadata()
     {
         return $this->metadata;
+    }
+
+    public function getAccess()
+    {
+        return $this->access;
     }
 
     public function eraseCredentials()
