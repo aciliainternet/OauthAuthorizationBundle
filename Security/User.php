@@ -8,7 +8,6 @@ use Symfony\Component\Security\Core\User\EquatableInterface;
 class User implements UserInterface, EquatableInterface
 {
     private $username;
-    private $regions;
     private $roles;
     private $metadata;
     private $access;
@@ -24,11 +23,6 @@ class User implements UserInterface, EquatableInterface
         }
         $this->roles = $roles;
         $this->metadata = $metadata;
-    }
-
-    public function getRegions()
-    {
-        return $this->regions;
     }
 
     public function getRoles()
