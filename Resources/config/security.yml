@@ -18,3 +18,5 @@ security:
             logout:
                 path:   /logout
                 success_handler: acilia.oauth_authorization.logout_success_handler
+
+            logout_on_user_change: true
