@@ -30,14 +30,6 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
 
     public function supports(Request $request)
     {
-        if ($apiToken = $request->query->has('api_token')) {
-            return true;
-        }
-
-        if ($token = $request->query->has('access_token')) {
-            return true;
-        }
-
         return false;
     }
 
