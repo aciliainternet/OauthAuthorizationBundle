@@ -1,11 +1,13 @@
 # OauthAuthorizationBundle
-Acilia oAuth authentication and authroization Bundle for Symfony2/3
+Acilia oAuth authentication and authroization Bundle for Symfony4.
+
+Symfony2 and Symfony3 versios available here: https://github.com/aciliainternet/OauthAuthorizationBundle
 
 # OauthAuthorizationBundle
 
-Symfony2 and Symfony3 Oauth Authorization bundle developed by Acilia Internet
+Symfony4 Oauth Authorization bundle developed by Acilia Internet.
 
-This bundle allows to authenticate and get authrozation against Oauth2 API service and creates a UserProviderInterface
+This bundle allows to authenticate and get authrozation against Oauth2 API service and creates a UserProviderInterface.
 
 ## Installation and configuration:
 
@@ -15,27 +17,25 @@ Pretty simple with [Composer](http://packagist.org), run:
 composer require aciliainternet/oauth-authorization-bundle
 ```
 
-### Add OauthAuthorizationBundle to your application kernel
+### Add OauthAuthorizationBundle to your application bundles
 
 ```php
-// app/AppKernel.php
-public function registerBundles()
-{
-    return array(
-        // ...
-        new Acilia\Bundle\OauthAuthorizationBundle\AciliaOauthAuthorizationBundle(),
-        // ...
-    );
-}
+// config/bundles.php
+return [
+    Symfony\Bundle\FrameworkBundle\FrameworkBundle::class => ['all' => true],
+    Symfony\Bundle\TwigBundle\TwigBundle::class => ['all' => true],
+    //...
+
+    Acilia\Bundle\OauthAuthorizationBundle\AciliaOauthAuthorizationBundle::class => ['all' => true]
+];
 ```
-<a name="configuration"></a>
 
 ### Configuration example
 
-This bundle provides a basic security.yml, you can import from your security.yml file
+This bundle provides a basic security.yaml, you can import from your security.yaml file
 ```
 imports:
-    - { resource: "@AciliaOauthAuthorizationBundle/Resources/config/security.yml" }
+    - { resource: "@AciliaOauthAuthorizationBundle/Resources/config/security.yaml" }
 ```
 You must configure some parameters
 
@@ -45,11 +45,19 @@ acilia_oauth_authorization:
     enabled: true                          # enable or disable authentication, if false users as authenticated as 'anon.'
     oauth_secret: '_secret_hash_'          # hash for encrypt requests to the api
     client_id: 'my_app_identifier_key'     # unique identifier for the application
+    # non mandatory
     excludes: ['www.domain-excluded.com']  # array of domains to exclude from the auth checking
+    api_tokens: ['secret-token']           # array of tokens available to use for test
 ```
 
-Finally, you'll need to define the logout path. Add to your routing.yml file the following:
+Finally, you'll need to define the logout path. Add to your routing.yaml file the following:
 ```
 logout:
     path: /logout
+```
+
+Or import the available routes.yaml provided by the framework to your routes.yaml file.
+```
+imports:
+    - { resource: "@AciliaOauthAuthorizationBundle/Resources/config/routes.yaml" }
 ```

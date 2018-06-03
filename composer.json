@@ -1,6 +1,6 @@
 {
     "name": "aciliainternet/oauth-authorization-bundle",
-    "type": "bundle",
+    "type": "symfony-bundle",
     "description": "Acilia Authorization Bundle",
     "keywords": ["bundle"],
     "homepage": "https://github.com/aciliainternet/OauthAuthorizationBundle",

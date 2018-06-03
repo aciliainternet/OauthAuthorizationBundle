@@ -27,7 +27,7 @@ class AciliaOauthAuthorizationExtension extends Extension
         $locator = new FileLocator(__DIR__.'/../Resources/config');
 
         $loader = new Loader\YamlFileLoader($container, $locator);
-        $loader->load('services.yml');
+        $loader->load('services.yaml');
 
         $container->setParameter('acilia_oauth.enabled', $config['enabled']);
         $container->setParameter('acilia_oauth.oauth_secret', $config['oauth_secret']);

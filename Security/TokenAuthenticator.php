@@ -55,7 +55,7 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
 
         if (empty($data)) {
             // no token? Return null and no other methods will be called
-            return;
+            return false;
         }
 
         return $data;
