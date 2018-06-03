@@ -2,7 +2,7 @@
     "name": "aciliainternet/oauth-authorization-bundle",
     "type": "symfony-bundle",
     "description": "Acilia Authorization Bundle",
-    "keywords": ["bundle"],
+    "keywords": ["bundle", "symfony", "acilia"],
     "homepage": "https://github.com/aciliainternet/OauthAuthorizationBundle",
     "authors": [
         {
@@ -11,9 +11,9 @@
         }
     ],
     "require": {
-        "php":                        ">=5.3.3",
-        "symfony/framework-bundle":   ">=2.8.0",
-        "guzzlehttp/guzzle": "^6.2"
+        "php":                        ">=7.1.0",
+        "symfony/framework-bundle":   ">=4.0",
+        "guzzlehttp/guzzle":          "^6.2"
     },
     "autoload": {
         "psr-0": { "Acilia\\Bundle\\OauthAuthorizationBundle": "" }
