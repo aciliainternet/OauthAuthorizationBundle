@@ -58,6 +58,6 @@ logout:
 
 Or import the available routes.yaml provided by the framework to your routes.yaml file.
 ```
-imports:
-    - { resource: "@AciliaOauthAuthorizationBundle/Resources/config/routes.yaml" }
+oauth_authorization_bundle:
+    resource: '@AciliaOauthAuthorizationBundle/Resources/config/routes.yaml'
 ```
