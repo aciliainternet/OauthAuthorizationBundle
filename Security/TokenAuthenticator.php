@@ -10,18 +10,20 @@ use Symfony\Component\Security\Guard\AbstractGuardAuthenticator;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
-use Exception;
+use Symfony\Component\Security\Core\Security;
 
 class TokenAuthenticator extends AbstractGuardAuthenticator
 {
+    protected $securityHelper;
     protected $access_url;
     protected $enabledService;
     protected $excludes;
     protected $client_id;
     protected $apiTokens;
 
-    public function __construct($access_url, EnabledService $enabledService, $client_id, $apiTokens)
+    public function __construct(Security $securityHelper, $access_url, EnabledService $enabledService, $client_id, $apiTokens)
     {
+        $this->securityHelper = $securityHelper;
         $this->access_url = $access_url;
         $this->enabledService = $enabledService;
         $this->client_id = $client_id;
@@ -30,6 +32,10 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
 
     public function supports(Request $request)
     {
+        if ($this->securityHelper->getUser()) {
+            return false;
+        }
+
         return true;
     }
 
@@ -69,11 +75,12 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
         }
 
         $accessToken = isset($credentials['token']) ? $credentials['token'] : '';
-        try {
+
+        if ($accessToken) {
             return $userProvider->loadUserByUsername($accessToken);
         }
-        catch (Exception $e) {
-        }
+
+        return null;
     }
 
     public function checkCredentials($credentials, UserInterface $user)
