@@ -9,7 +9,7 @@ services:
 
     acilia.oauth_authorization.token_authenticator:
         class: Acilia\Bundle\OauthAuthorizationBundle\Security\TokenAuthenticator
-        arguments: ['%acilia_oauth.access_url%', '@acilia.oauth_authorization.enabled', '%acilia_oauth.client_id%', '%acilia_oauth.api_tokens%']
+        arguments: ['@security.helper', '%acilia_oauth.access_url%', '@acilia.oauth_authorization.enabled', '%acilia_oauth.client_id%', '%acilia_oauth.api_tokens%']
 
     # User Provider
     acilia.oauth_authorization.oauth_access_user_provider:
