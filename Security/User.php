@@ -5,7 +5,7 @@ namespace Acilia\Bundle\OauthAuthorizationBundle\Security;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\EquatableInterface;
 
-class User implements UserInterface, EquatableInterface
+class User implements UserInterface, EquatableInterface, \Serializable
 {
     protected $username;
     protected $regions;
@@ -65,5 +65,25 @@ class User implements UserInterface, EquatableInterface
         }
 
         return true;
+    }
+
+    public function serialize()
+    {
+        return serialize([
+            $this->username,
+            $this->regions,
+            $this->roles,
+            $this->metadata
+        ]);
+    }
+
+    public function unserialize($serialized)
+    {
+        list(
+            $this->username,
+            $this->regions,
+            $this->roles,
+            $this->metadata
+        ) = unserialize($serialized);
     }
 }
