@@ -70,6 +70,10 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
 
     public function getUser($credentials, UserProviderInterface $userProvider)
     {
+        if (! $this->enabledService->isEnabled()) {
+            return $userProvider->loadUserByUsername('');
+        }
+        
         if (isset($credentials['api_token']) && in_array($credentials['api_token'], $this->apiTokens)) {
             return new User('free', [], [], []);
         }
@@ -99,6 +103,10 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
 
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
     {
+        if (! $this->enabledService->isEnabled()) {
+            return null;
+        }
+
         $redirectUri = urlencode($request->getSchemeAndHttpHost().$request->getBaseUrl().$request->getPathInfo());
         $redirectUri = sprintf('%s/oauth/auth?client_id=%s&redirect_uri=%s', $this->access_url, $this->client_id, $redirectUri);
         return new RedirectResponse($redirectUri);
