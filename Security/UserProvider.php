@@ -38,7 +38,7 @@ class UserProvider implements UserProviderInterface
         if ($authZ->getStatusCode() == 200) {
             $authData = json_decode($authZ->getBody(), true);
             if ($authData['auth'] == 1) {
-                return new User($authData['data']['user']['name'], $authData['data']['access'], $authData['data']['roles'], $authData['data']['metadata']);
+                return new User(trim($authData['data']['user']['name'] . ' ' . $authData['data']['user']['surname']), $authData['data']['access'], $authData['data']['roles'], $authData['data']['metadata']);
             }
 
             throw new UsernameNotFoundException('User is not authenticated');
