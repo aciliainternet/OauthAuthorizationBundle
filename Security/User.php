@@ -11,13 +11,15 @@ class User implements UserInterface, EquatableInterface
     protected $regions;
     protected $roles;
     protected $metadata;
+    protected $email;
 
-    public function __construct($username, array $regions, array $roles, array $metadata)
+    public function __construct($username, array $regions, array $roles, array $metadata, $email = null)
     {
         $this->username = $username;
         $this->regions = $regions;
         $this->roles = $roles;
         $this->metadata = $metadata;
+        $this->email = $email;
     }
 
     public function getRegions()
@@ -48,6 +50,11 @@ class User implements UserInterface, EquatableInterface
     public function getMetadata()
     {
         return $this->metadata;
+    }
+    
+    public function getEmail()
+    {
+        return $this->email;
     }
 
     public function eraseCredentials()
