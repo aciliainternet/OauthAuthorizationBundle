@@ -65,7 +65,7 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
     public function getUser($credentials, UserProviderInterface $userProvider)
     {
         if (isset($credentials['api_token']) && in_array($credentials['api_token'], $this->apiTokens)) {
-            return new User('free', [], [], []);
+            return new User('free', [], [], [], null);
         }
 
         $accessToken = isset($credentials['token']) ? $credentials['token'] : '';
